@@ -2,17 +2,17 @@ import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
 
-class graph_ntu():
+class graph_keti():
 
     def __init__(self,
                  max_hop=1,
                  dilation=1):
         self.max_hop  = max_hop
         self.dilation = dilation
-        self.lvls     = 4  # 25 -> 11 -> 5 -> 1
+        self.lvls     = 5  # 27 -> 15 -> 5 -> 1
         self.As       = []
         self.hop_dis  = []
-        
+
         self.get_edge()
         for lvl in range(self.lvls):
             self.hop_dis.append(get_hop_distance(self.num_node, self.edge, lvl, max_hop=max_hop))
@@ -30,15 +30,13 @@ class graph_ntu():
         self.nodes = []
         self.Gs = []
         
-        neighbor_base = [(1, 2), (2, 21), (3, 21), (4, 3), (5, 21),
-                        (6, 5), (7, 6), (8, 7), (9, 21), (10, 9),
-                        (11, 10), (12, 11), (1, 13), (14, 13), (15, 14),
-                        (16, 15), (1, 17), (18, 17), (19, 18), (20, 19),
-                        (22, 8), (23, 8), (24, 12), (25, 12)]
+        neighbor_base = [(1, 2), (1, 3), (1, 4), (4, 6), (6, 8), 
+                            (8, 9), (8, 10), (10, 11), (8, 12), (12, 13), (8, 14), (14, 15), (8, 16), (16, 17),
+                            (1, 5), (5, 7), (7, 18),
+                            (18, 19), (18, 20), (20, 21), (18, 20), (20, 23), (18, 24), (24, 25), (18, 26), (26, 27)]
         neighbor_link = [(i - 1, j - 1) for (i, j) in neighbor_base]
-
-
-        nodes = np.array([i for i in range(25)])
+      
+        nodes = np.array([i for i in range(27)])
         G = nx.Graph()
         G.add_nodes_from(nodes)
         G.add_edges_from(neighbor_link)
@@ -52,15 +50,16 @@ class graph_ntu():
         self.nodes.append(nodes)
         self.num_node.append(len(G))
         self.Gs.append(G.copy())
-        #print(len(self.center), self.lvls)
 
-        for _ in range(self.lvls-1):
+
+        for n in range(self.lvls-1):
             stay  = []
             start = 1
             while True:
                 remove = []
                 for i in G:
-                    if len(G.edges(i)) == start and i not in stay:
+                    #print(G.edges(i))
+                    if len(G.edges(i)) == start and i not in stay:#1 TRUE
                         lost = []
                         for j,k in G.edges(i):
                             stay.append(k)
@@ -83,17 +82,15 @@ class graph_ntu():
                 start+=1
 
             map_i = np.array([[i, x] for i,x in enumerate(G)])  # Keep track graph indices
-            print(map_i)
             self.map.append(map_i)
 
             mapping = {}  # Change mapping labels
-            print(G)
             for i, x in enumerate(G): 
+                print(x)
                 mapping[int(x)] = i
                 if int(x)==self.center[-1]:
                     self.center.append(i)
                     #print(i,x,self.center)
-            
             
 
             G = nx.relabel_nodes(G, mapping)  # Change labels
@@ -107,6 +104,7 @@ class graph_ntu():
             self.edge.append(G_l)
             self.num_node.append(len(G))
             self.Gs.append(G.copy())
+            print(n,":")
 
         
         '''for i, G in enumerate(self.Gs):  # Uncomment this to visualize graphs
@@ -117,7 +115,7 @@ class graph_ntu():
         assert len(self.num_node) == self.lvls
         assert len(self.nodes)    == self.lvls
         assert len(self.edge)     == self.lvls
-        assert len(self.center)   == self.lvls
+        assert len(self.center)   == self.lvls, print(self.center, self.lvls)
         assert len(self.map)      == self.lvls
         
         

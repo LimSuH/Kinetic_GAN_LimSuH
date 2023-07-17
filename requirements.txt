@@ -20,7 +20,7 @@ scikit-learn==0.24.1
 scipy==1.6.1
 six==1.15.0
 threadpoolctl==2.1.0
-torch==1.7.1
+torch==1.11.1
 torchvision==0.8.2
 typing-extensions==3.7.4.3
 urllib3>=1.26.5

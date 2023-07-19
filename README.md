@@ -6,6 +6,9 @@ KETI 데이터셋 적용을 위해 graph 코드를 작성하였습니다: graph_
 해당 코드는 GCN 연산을 위한 그래프 구성을 구하는 코드 입니다.  
 
 </br> 
-KETI 데이터의 GCN 연산 과정은 다음과 같습니다.
-![image](https://github.com/Neural-IntLab/Kinetic_GAN_LimSuH/assets/82634312/e8707e0a-86e0-46f5-b9b4-b29aa1fb5e2c)
+KETI 데이터의 GCN 연산 과정은 다음과 같습니다.  
+
+![image](https://github.com/Neural-IntLab/Kinetic_GAN_LimSuH/assets/82634312/e8707e0a-86e0-46f5-b9b4-b29aa1fb5e2c)  
+
+다섯 단계에 걸쳐 GCN연산이 진행되며, 양옆으로 이웃한 노드가 연결된 center 노드로 값이 업데이트 됩니다.  
 

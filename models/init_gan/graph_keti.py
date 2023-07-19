@@ -9,7 +9,7 @@ class graph_keti():
                  dilation=1):
         self.max_hop  = max_hop
         self.dilation = dilation
-        self.lvls     = 5  # 27 -> 15 -> 5 -> 1
+        self.lvls     = 5  # 27 -> 13 -> 5 -> 3 -> 1
         self.As       = []
         self.hop_dis  = []
 
@@ -26,14 +26,14 @@ class graph_keti():
     def get_edge(self):
         self.num_node = []
         self.nodes = []
-        self.center = [21 - 1]
+        self.center = [25, 12, 4, 2, 0]
         self.nodes = []
         self.Gs = []
         
         neighbor_base = [(1, 2), (1, 3), (1, 4), (4, 6), (6, 8), 
                             (8, 9), (8, 10), (10, 11), (8, 12), (12, 13), (8, 14), (14, 15), (8, 16), (16, 17),
                             (1, 5), (5, 7), (7, 18),
-                            (18, 19), (18, 20), (20, 21), (18, 20), (20, 23), (18, 24), (24, 25), (18, 26), (26, 27)]
+                            (18, 19), (18, 20), (20, 21), (18, 22), (22, 23), (18, 24), (24, 25), (18, 26), (26, 27)]
         neighbor_link = [(i - 1, j - 1) for (i, j) in neighbor_base]
       
         nodes = np.array([i for i in range(27)])
@@ -70,7 +70,11 @@ class graph_keti():
                         remove.append(i)
 
                 if start>10: break  # Remove as maximum as possible
+                if n!=0 and 0 in remove:
+                    remove.remove(0)
+                    G.remove_edge(1, 2)
                 G.remove_nodes_from(remove)
+                
                 #print("removed nodes: ", remove)
 
                 cycle = nx.cycle_basis(G)  # Check if there is a cycle in order to downsample it
@@ -86,13 +90,19 @@ class graph_keti():
 
             mapping = {}  # Change mapping labels
             for i, x in enumerate(G): 
-                print(x)
+                #print(x)
+                # if n ==1:
+                #     i+=1
+                #     mapping[0] = 0
                 mapping[int(x)] = i
-                if int(x)==self.center[-1]:
-                    self.center.append(i)
-                    #print(i,x,self.center)
+                # if int(x)==self.center[-1]:
+                #     self.center.append(i)
+                #     print("#",mapping)
             
+            # sorted(mapping)
 
+            print("#",mapping)
+            print("*",self.center)
             G = nx.relabel_nodes(G, mapping)  # Change labels
             G = nx.convert_node_labels_to_integers(G, first_label=0)
             
@@ -104,7 +114,7 @@ class graph_keti():
             self.edge.append(G_l)
             self.num_node.append(len(G))
             self.Gs.append(G.copy())
-            print(n,":")
+            
 
         
         '''for i, G in enumerate(self.Gs):  # Uncomment this to visualize graphs
@@ -115,7 +125,7 @@ class graph_keti():
         assert len(self.num_node) == self.lvls
         assert len(self.nodes)    == self.lvls
         assert len(self.edge)     == self.lvls
-        assert len(self.center)   == self.lvls, print(self.center, self.lvls)
+        assert len(self.center)   == self.lvls
         assert len(self.map)      == self.lvls
         
         

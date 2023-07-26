@@ -61,7 +61,7 @@ class Feeder(torch.utils.data.Dataset):
             self.data  = self.data[np.where(np.isin(self.label, self.classes))]
             self.label = np.nonzero(tmp[:, None] == self.classes)[1]
 
-        if self.dataset=='ntu':
+        if self.dataset=='ntu' or self.dataset == 'keti':
             self.N, self.C, self.T, self.V, self.M = self.data.shape
         else:
             self.N, self.C, self.T, self.V = self.data.shape
@@ -73,7 +73,7 @@ class Feeder(torch.utils.data.Dataset):
 
     def __getitem__(self, index):
         # get data
-        data_numpy = np.array(self.data[index,:,:,:,0]) if self.dataset=='ntu' else np.array(self.data[index])
+        data_numpy = np.array(self.data[index,:,:,:,0]) if self.dataset=='ntu' or self.dataset=='keti' else np.array(self.data[index])
         data_numpy = 2 * ((data_numpy-self.min)/(self.max - self.min)) - 1 if self.norm else data_numpy
         label = self.label[index]
         

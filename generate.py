@@ -29,17 +29,17 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--batch_size", type=int,   default=10,    help="How many samples PER CLASS (each iteration of course)")
 parser.add_argument("--latent_dim", type=int,   default=512,   help="dimensionality of the latent space")
 parser.add_argument("--mlp_dim",    type=int,   default=4,     help="mapping network depth")
-parser.add_argument("--n_classes",  type=int,   default=60,    help="number of classes for dataset")
+parser.add_argument("--n_classes",  type=int,   default=10,    help="number of classes for dataset")
 parser.add_argument("--label",      type=int,   default=-1,    help="Sepecific label to generate, -1 for all classes")
-parser.add_argument("--t_size",     type=int,   default=64,    help="size of each temporal dimension")
-parser.add_argument("--v_size",     type=int,   default=25,    help="size of each spatial dimension (vertices)")
-parser.add_argument("--channels",   type=int,   default=3,     help="number of channels (coordinates)")
-parser.add_argument("--dataset",    type=str,   default="ntu", help="dataset")
-parser.add_argument("--model",      type=str,   default="runs/kinetic-gan/exp1/models/generator_ntu_xsub_mlp4_1370000.pth", help="path to gen model")
+parser.add_argument("--t_size",     type=int,   default=109,    help="size of each temporal dimension")
+parser.add_argument("--v_size",     type=int,   default=27,    help="size of each spatial dimension (vertices)")
+parser.add_argument("--channels",   type=int,   default=2,     help="number of channels (coordinates)")
+parser.add_argument("--dataset",    type=str,   default="keti", help="dataset")
+parser.add_argument("--model",      type=str,   default="runs/kinetic-gan/exp2/models/generator_20000.pth", help="path to gen model")
 parser.add_argument("--stochastic", action='store_true',       help="Generate/Get one sample and verify stochasticity")
 parser.add_argument("--stochastic_file", type=str, default="-", help="Read one sample and verify stochasticity")
 parser.add_argument("--stochastic_index", type=int, default=0, help="Sample index to get your latent point")
-parser.add_argument("--gen_qtd",    type=int,   default=1000,  help="How many samples to generate per class")
+parser.add_argument("--gen_qtd",    type=int,   default=1,  help="How many samples to generate per class")
 parser.add_argument("--trunc",      type=float, default=0.95,   help="Truncation sigma")
 parser.add_argument("--trunc_mode", type=str,   default='w',   choices=['z', 'w', '-'], help="Truncation mode (check paper for details)")
 parser.add_argument("--mean_size",  type=int,   default=1000,  help="Samples to estimate mean")
@@ -105,7 +105,7 @@ while(len(classes)>0):
     print(len(new_labels), classes)
 
 
-if opt.dataset == 'ntu':
+if opt.dataset == 'ntu' or opt.dataset == 'keti':
     new_imgs = np.expand_dims(new_imgs, axis=-1)
     
 

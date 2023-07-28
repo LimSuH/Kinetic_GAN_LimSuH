@@ -15,10 +15,12 @@ GCN 관련 참고 자료:
 [![Video Label](http://img.youtube.com/vi/YL1jGgcY78U/0.jpg)](https://www.youtube.com/watch?v=YL1jGgcY78U)  
 
 </br>
+
 ### KETI 학습
 
 
 </br> 
+
 ### 학습 데이터 및 생성 데이터 확인
 NTU, KETI 데이터 각각에 대해 학습을 완료하였으며 원본데이터-학습을 완료한 모델이 생성해낸 합성 데이터를 확인해본 노트북을 업로드 하였습니다.  
 각각 NTUtrain.ipynb, KETItrain.ipynb 입니다.  
